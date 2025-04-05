@@ -3,8 +3,8 @@ import { Form, Input, Button, Table, Select, DatePicker, Checkbox, Radio, Switch
 import FormBuild from './form-build';
 import GridBuild from './grid-build';
 import { 
-  InputBuild, 
-  ButtonBuild, 
+  InputBuild,
+  ButtonBuild,
   SelectBuild, 
   DatePickerBuild,
   CheckboxBuild,

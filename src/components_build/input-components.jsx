@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input, Button, Select, DatePicker, Checkbox, Radio, Switch } from 'antd';
+import { Input, Select, DatePicker, Checkbox, Radio, Switch } from 'antd';
 import withListeners from '../utils/withListeners';
+import ButtonBuild from './components/Button';
 
 // Componente de Input base
 const BaseInputComponent = React.forwardRef(({ config, ...rest }, ref) => {
@@ -57,46 +58,6 @@ BaseInputComponent.displayName = 'BaseInputComponent';
 
 // Aplicando o HOC withListeners
 const InputBuild = withListeners(BaseInputComponent);
-
-// Componente de Botão
-const ButtonBuild = withListeners(({ config }) => {
-  const { 
-    text, 
-    type = 'default', 
-    size, 
-    icon,
-    disabled,
-    loading,
-    danger,
-    ghost,
-    block,
-    htmlType = 'button',
-    shape,
-    onClick,
-    style,
-    className
-  } = config;
-  
-  return (
-    <Button
-      type={type}
-      size={size}
-      icon={icon}
-      disabled={disabled}
-      loading={loading}
-      danger={danger}
-      ghost={ghost}
-      block={block}
-      htmlType={htmlType}
-      shape={shape}
-      onClick={onClick}
-      style={style}
-      className={className}
-    >
-      {text}
-    </Button>
-  );
-});
 
 // Componente de Select
 const SelectBuild = withListeners(({ config }) => {
@@ -341,11 +302,11 @@ import JSONToComponent from './BaseBuild';
 
 export {
   InputBuild,
-  ButtonBuild,
   SelectBuild,
   DatePickerBuild,
   CheckboxBuild,
   RadioBuild,
   SwitchBuild,
-  PanelBuild
+  PanelBuild,
+  ButtonBuild
 };
