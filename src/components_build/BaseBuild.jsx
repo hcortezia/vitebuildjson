@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Table, Select, DatePicker, Checkbox, Radio, Switch } from 'antd';
+import componentsRegistry from './components';
 import FormBuild from './form-build';
 import GridBuild from './grid-build';
 import { 
@@ -18,7 +18,14 @@ const BaseBuild = ({ json }) => {
   // Renderiza o componente baseado no xtype
   const renderComponent = (config, index) => {
     const { xtype } = config;
-    
+
+    // Primeiro, tentamos obter o componente do registro
+    const Component = componentsRegistry[xtype];
+    if (Component) {
+      return <Component key={index} config={config} />;
+    }
+
+    // Caso o componente não esteja no registro, usamos o fallback
     switch (xtype) {
       case 'form':
         return <FormBuild key={index} config={config} />;
@@ -46,6 +53,12 @@ const BaseBuild = ({ json }) => {
   };
 
   return renderComponent(json, 0);
+};
+
+// Função auxiliar que pode ser usada por outros componentes
+export const JSONToComponent = ({ json, index = 0 }) => {
+  const baseBuild = new BaseBuild({});
+  return baseBuild.renderComponent(json, index);
 };
 
 export default BaseBuild;
