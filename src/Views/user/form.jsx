@@ -29,14 +29,15 @@ const createFormConfig = (userModel, options = {}) => {
                 xtype: 'input',
                 name: 'name',
                 label: 'Nome',
-                validators: [
-                    { type: 'required', message: 'Nome é obrigatório' }
-                ]
+                icon: 'UserOutlined',
+                required: true,
+                requiredMessage: 'O nome é obrigatório humberto',
             },
             {
                 xtype: 'input',
                 name: 'email',
                 label: 'E-mail',
+                icon: 'MailOutlined',
                 validators: [
                     { type: 'required', message: 'E-mail é obrigatório' },
                     { type: 'email', message: 'E-mail inválido' }
@@ -54,7 +55,18 @@ const createFormConfig = (userModel, options = {}) => {
             {
                 xtype: 'checkbox',
                 name: 'active',
-                label: 'Ativo'
+                label: 'Ativo',
+                icon: 'CheckOutlined'
+            },
+            {
+                xtype: 'input',
+                inputType: 'withButton',
+                name: 'url',
+                label: 'URL',
+                buttonText: 'Buscar',
+                buttonType: 'primary',
+                buttonIcon: 'SearchOutlined',
+                onButtonClick: () => console.log('Buscar')
             },
             {
                 xtype: 'datepicker',
@@ -75,12 +87,14 @@ const createFormConfig = (userModel, options = {}) => {
             {
                 text: 'Salvar',
                 type: 'primary',
-                htmlType: 'submit'
+                htmlType: 'submit',
+                spacing: '8px'
             },
             {
                 text: 'Cancelar',
                 htmlType: 'button',
-                onClick: onCancel
+                onClick: onCancel,
+                spacing: '8px'
             }
         ]
     };

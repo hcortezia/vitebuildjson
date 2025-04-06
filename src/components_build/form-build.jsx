@@ -18,8 +18,33 @@ const FormBuild = ({ config }) => {
     wrapperCol = { span: 16 },
     onSubmit,
     onReset,
-    listeners = {}
+    listeners = {},
+    buttonSpacing = '8px'
   } = config;
+  
+  // Obtém regras de validação combinando required e validators
+  const getValidationRules = (item) => {
+    let rules = [];
+    
+    // Verifica se já existe um validador 'required' nos validators
+    const hasRequiredValidator = item.validators?.some(v => v.type === 'required');
+    console.log('hasRequiredValidator', hasRequiredValidator);
+
+    // Adiciona regra required se o atributo estiver presente
+    if (item.required === true && !hasRequiredValidator) {
+      rules.push({ 
+        required: true, 
+        message: item.requiredMessage || `${item.label} é obrigatório` 
+      });
+    }
+    
+    // Adiciona outras regras do array validators
+    if (item.validators && item.validators.length) {
+      rules = [...rules, ...mapValidationRules(item.validators)];
+    }
+    
+    return rules;
+  };
   
   // Renderiza os itens do formulário
   const renderItems = () => {
@@ -35,7 +60,7 @@ const FormBuild = ({ config }) => {
           key={index} 
           label={item.label} 
           name={item.name}
-          rules={mapValidationRules(item.validators)}
+          rules={getValidationRules(item)}
         >
           <BaseBuild json={item} />
         </Form.Item>
@@ -53,7 +78,7 @@ const FormBuild = ({ config }) => {
               <Form.Item 
                 label={colItem.label} 
                 name={colItem.name}
-                rules={mapValidationRules(colItem.validators)}
+                rules={getValidationRules(colItem)}
               >
                 <BaseBuild json={colItem} />
               </Form.Item>
@@ -209,6 +234,10 @@ const FormBuild = ({ config }) => {
           htmlType={button.htmlType || 'button'}
           onClick={button.onClick}
           loading={button.htmlType === 'submit' && isLoading}
+          style={{ 
+            marginRight: button.spacing || buttonSpacing,
+            ...button.style 
+          }}
         >
           {button.text}
         </Button>
@@ -218,10 +247,18 @@ const FormBuild = ({ config }) => {
     // Botões padrão
     return (
       <>
-        <Button type="primary" htmlType="submit" loading={isLoading}>
+        <Button 
+          type="primary" 
+          htmlType="submit" 
+          loading={isLoading} 
+          style={{marginRight: buttonSpacing}}
+        >
           Salvar
         </Button>
-        <Button htmlType="button" onClick={handleReset} style={{ marginLeft: 8 }}>
+        <Button 
+          htmlType="button" 
+          onClick={handleReset}
+        >
           Limpar
         </Button>
       </>

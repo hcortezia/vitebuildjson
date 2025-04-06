@@ -2,12 +2,12 @@ import { useState } from 'react'
 // Use
 import BaseBuild from './components_build/BaseBuild';
 import { FormBuild, GridBuild } from './components_build';
-import UserManagement from './examples/UserManagement'
+import IndexUser from './Views/user/index'
 
 function App() {
   return (
   <>
-    <UserManagement />
+    <IndexUser />
   </>
   );
 }
