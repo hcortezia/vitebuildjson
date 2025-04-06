@@ -9,6 +9,7 @@ const UserView = () => {
   
   // Handlers
   const handleSave = (data) => {
+    console.log('Dados do formulário:', data);
     userController.dispatch('saveUser', data);
     setCurrentUser(null);
   };

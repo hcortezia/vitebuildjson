@@ -1,6 +1,6 @@
 import React from 'react';
 // Você precisará importar o userModel se ele não estiver definido aqui
-import { userModel } from '../../models/user'; // ajuste conforme necessário
+import { userModel } from '../../models/user_model'; // ajuste conforme necessário
 
 /**
  * Cria uma configuração de formulário para usuário
@@ -58,16 +58,16 @@ const createFormConfig = (userModel, options = {}) => {
                 label: 'Ativo',
                 icon: 'CheckOutlined'
             },
-            {
-                xtype: 'input',
-                inputType: 'withButton',
-                name: 'url',
-                label: 'URL',
-                buttonText: 'Buscar',
-                buttonType: 'primary',
-                buttonIcon: 'SearchOutlined',
-                onButtonClick: () => console.log('Buscar')
-            },
+            // {
+            //     xtype: 'input',
+            //     inputType: 'withButton',
+            //     name: 'url',
+            //     label: 'URL',
+            //     buttonText: 'Buscar',
+            //     buttonType: 'primary',
+            //     buttonIcon: 'SearchOutlined',
+            //     onButtonClick: () => alert('Buscar')
+            // },
             {
                 xtype: 'datepicker',
                 name: 'birthDate',
@@ -88,7 +88,7 @@ const createFormConfig = (userModel, options = {}) => {
                 text: 'Salvar',
                 type: 'primary',
                 htmlType: 'submit',
-                spacing: '8px'
+                spacing: '8px',
             },
             {
                 text: 'Cancelar',

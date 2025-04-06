@@ -1,6 +1,6 @@
 import { Store } from '../core/model-build';
 import ControllerBuild from '../core/controller-build';
-import userModel from '../models/user';
+import userModel from '../models/user_model';
 
 // Criação de uma store para o modelo
 export const userStore = new Store({
@@ -13,15 +13,12 @@ export const userStore = new Store({
 
 // Criação de um controller para gerenciar a aplicação
 const userController = new ControllerBuild({
-  models: {
-    user: userModel
-  },
-  stores: {
-    users: userStore
-  },
+  models: { user: userModel },
+  stores: { users: userStore },
   actions: {
     // Ações do controller
     saveUser: async function(values) {
+      console.log('saveUser', values);
       try {
         const user = await this.getModel('user').save(values);
         this.getStore('users').load();

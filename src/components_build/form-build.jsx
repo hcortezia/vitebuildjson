@@ -28,7 +28,6 @@ const FormBuild = ({ config }) => {
     
     // Verifica se já existe um validador 'required' nos validators
     const hasRequiredValidator = item.validators?.some(v => v.type === 'required');
-    console.log('hasRequiredValidator', hasRequiredValidator);
 
     // Adiciona regra required se o atributo estiver presente
     if (item.required === true && !hasRequiredValidator) {
@@ -173,6 +172,10 @@ const FormBuild = ({ config }) => {
   
   // Handler para submit do formulário
   const handleSubmit = (values) => {
+
+    // Log para debug
+    console.log("Valores submetidos:", values);
+
     // Trigger evento beforeSubmit
     if (listeners.beforeSubmit) {
       const shouldProceed = listeners.beforeSubmit(values);
