@@ -1,15 +1,28 @@
+// src/utils/withListeners.jsx
 import React from 'react';
 
 // HOC para aplicar listeners a qualquer componente
 const withListeners = (WrappedComponent) => {
   const WithListenersComponent = (props) => {
-    const { config } = props;
-    const { listeners = {} } = config;
+    // Desestruturar props para isolar config
+    const { config, ...restProps } = props;
     
-    const enhancedProps = { ...props };
+    // Extrair listeners da config
+    const { listeners = {}, ...restConfig } = config;
     
-    // Mapeia os listeners do ExtJS para eventos React/Ant Design
-    if (listeners) {
+    // Criar props melhoradas para o componente
+    const enhancedProps = {
+      // Passar todas as props que não são config diretamente
+      ...restProps,
+      
+      // Mesclar a config sem os listeners
+      config: {
+        ...restConfig
+      }
+    };
+    
+    // Adicionar event handlers dos listeners
+    if (Object.keys(listeners).length > 0) {
       Object.keys(listeners).forEach(eventName => {
         const handler = listeners[eventName];
         
@@ -27,7 +40,7 @@ const withListeners = (WrappedComponent) => {
       });
     }
     
-    return React.createElement(WrappedComponent, enhancedProps);
+    return <WrappedComponent {...enhancedProps} />;
   };
 
   WithListenersComponent.displayName = `WithListeners(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
@@ -35,4 +48,5 @@ const withListeners = (WrappedComponent) => {
   return WithListenersComponent;
 };
 
-export default withListeners; 
+// Usar export default
+export default withListeners;

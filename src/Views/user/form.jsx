@@ -24,6 +24,10 @@ const createFormConfig = (userModel, options = {}) => {
         title: title,
         layout: 'vertical',
         model: userModel,
+        onSubmit: (values) => {
+            console.log('Dados do formulário:', values);
+            onSave(values);
+        },
         items: [
             {
                 xtype: 'input',
@@ -58,16 +62,16 @@ const createFormConfig = (userModel, options = {}) => {
                 label: 'Ativo',
                 icon: 'CheckOutlined'
             },
-            // {
-            //     xtype: 'input',
-            //     inputType: 'withButton',
-            //     name: 'url',
-            //     label: 'URL',
-            //     buttonText: 'Buscar',
-            //     buttonType: 'primary',
-            //     buttonIcon: 'SearchOutlined',
-            //     onButtonClick: () => alert('Buscar')
-            // },
+            {
+                xtype: 'input',
+                inputType: 'withButton',
+                name: 'url',
+                label: 'URL',
+                buttonText: 'Buscar',
+                buttonType: 'primary',
+                buttonIcon: 'SearchOutlined',
+                onButtonClick: () => alert('Buscar')
+            },
             {
                 xtype: 'datepicker',
                 name: 'birthDate',

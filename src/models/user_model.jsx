@@ -42,7 +42,7 @@ const userModel = new ModelBuild({
   ],
   proxy: {
     type: 'rest',
-    url: '/api/users',
+    url: 'http://localhost:3000/api/users',
     reader: {
       root: 'data',
       totalProperty: 'total'

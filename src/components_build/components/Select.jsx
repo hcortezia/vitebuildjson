@@ -1,9 +1,11 @@
 import React from 'react';
-import  { Select } from 'antd';
+import { Select } from 'antd';
 import withListeners from '../../utils/withListeners';
 
 // Componente de Select
-const SelectBuild = withListeners(({ config }) => {
+const SelectBuild = withListeners(({ config, value, onChange }) => {
+    console.log('SelectBuild props:', { config, value, onChange });
+    
     const { 
       options = [], 
       placeholder, 
@@ -11,8 +13,7 @@ const SelectBuild = withListeners(({ config }) => {
       mode,
       allowClear = true,
       showSearch = true,
-      value,
-      onChange,
+      // Remova value e onChange do destructuring da config
       onBlur,
       onFocus,
       style,
@@ -24,6 +25,21 @@ const SelectBuild = withListeners(({ config }) => {
     } = config;
     
     const [selectOptions, setSelectOptions] = React.useState(options);
+    
+    // Função para lidar com alterações
+    const handleChange = (selectedValue) => {
+      console.log(`SelectBuild onChange: ${config.name} = ${selectedValue}`);
+      
+      // Chama o onChange recebido como prop (do Form)
+      if (onChange) {
+        onChange(selectedValue);
+      }
+      
+      // Chama o onChange da configuração se existir
+      if (config.onChange) {
+        config.onChange(selectedValue);
+      }
+    };
     
     // Se tiver uma store configurada, carrega as opções dela
     React.useEffect(() => {
@@ -51,7 +67,7 @@ const SelectBuild = withListeners(({ config }) => {
         allowClear={allowClear}
         showSearch={showSearch}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         onBlur={onBlur}
         onFocus={onFocus}
         style={style}
@@ -61,6 +77,6 @@ const SelectBuild = withListeners(({ config }) => {
         size={size}
       />
     );
-  });
+});
 
 export default SelectBuild;

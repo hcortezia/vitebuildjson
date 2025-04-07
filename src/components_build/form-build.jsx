@@ -60,7 +60,9 @@ const FormBuild = ({ config }) => {
           label={item.label} 
           name={item.name}
           rules={getValidationRules(item)}
+          valuePropName={item.type === 'checkbox' ? 'checked' : 'value'}
         >
+          {/* Não use função de renderização aqui, apenas passe o componente */}
           <BaseBuild json={item} />
         </Form.Item>
       );
@@ -78,8 +80,16 @@ const FormBuild = ({ config }) => {
                 label={colItem.label} 
                 name={colItem.name}
                 rules={getValidationRules(colItem)}
+                valuePropName={colItem.type === 'checkbox' ? 'checked' : 'value'}
               >
-                <BaseBuild json={colItem} />
+                {(field) => {
+                  console.log(`Renderizando campo ${colItem.name} com valor:`, field.value);
+                  return <BaseBuild 
+                  key={colIndex}
+                  json={colItem} 
+                  value={field.value} 
+                  onChange={field.onChange} />;
+                }}
               </Form.Item>
             </Col>
           ))}
@@ -208,6 +218,8 @@ const FormBuild = ({ config }) => {
           setIsLoading(false);
         });
     } else if (onSubmit) {
+      // Chamando onSubmit diretamente se não houver model
+      console.log("Chamando onSubmit com valores:", values);
       onSubmit(values);
     }
   };
@@ -275,7 +287,21 @@ const FormBuild = ({ config }) => {
       layout={layout}
       labelCol={labelCol}
       wrapperCol={wrapperCol}
-      onFinish={handleSubmit}
+      onFinish={(values) => {
+        console.log("Form onFinish valores:", values);
+        handleSubmit(values);
+      }}
+      onFinishFailed={(errorInfo) => {
+        console.log("Form onFinishFailed erro:", errorInfo);
+      }}
+      onValuesChange={(changedValues, allValues) => {
+        console.log("Form valores alterados:", changedValues, allValues);
+      }}
+      initialValues={formData}
+      validateMessages={{
+        required: '${label} é obrigatório'
+      }}
+      validateTrigger={['onChange', 'onBlur']}
       style={{ width: width || '100%' }}
     >
       {renderItems()}

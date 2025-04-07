@@ -4,7 +4,9 @@ import * as Icons from '@ant-design/icons';
 import withListeners from '../../utils/withListeners';
 
 // Componente de Input
-const InputBuild = withListeners(({ config }) => {
+const InputBuild = withListeners(({ config, value, onChange }) => {
+  console.log('InputBuild props:', { config, value, onChange });
+  
   const { 
     type = 'text',
     inputType = 'default',
@@ -18,8 +20,7 @@ const InputBuild = withListeners(({ config }) => {
     addonAfter, 
     size,
     allowClear = true,
-    value,
-    onChange,
+    // NÃO extraia value e onChange da config
     onPressEnter,
     onBlur,
     onFocus,
@@ -36,6 +37,22 @@ const InputBuild = withListeners(({ config }) => {
     ...rest
   } = config;
 
+  // Função para lidar com alterações
+  const handleChange = (e) => {
+    const newValue = e && e.target ? e.target.value : e;
+    console.log(`InputBuild onChange: ${config.name} = ${newValue}`);
+    
+    // Chama o onChange recebido como prop (do Form)
+    if (onChange) {
+      onChange(newValue);
+    }
+    
+    // Chama o onChange da configuração se existir
+    if (config.onChange) {
+      config.onChange(e);
+    }
+  };
+
   // Função para renderizar ícone
   const renderIcon = (iconName) => {
     if (!iconName) return null;
@@ -47,7 +64,7 @@ const InputBuild = withListeners(({ config }) => {
   const inputPrefix = icon ? renderIcon(icon) : prefix;
   const inputSuffix = suffixIcon ? renderIcon(suffixIcon) : suffix;
   
-  // Mapeamento de tipos - mover para cima 
+  // Mapeamento de tipos
   const inputTypes = {
     'text': Input,
     'password': Input.Password,
@@ -69,7 +86,7 @@ const InputBuild = withListeners(({ config }) => {
       size={size}
       allowClear={allowClear}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       onPressEnter={onPressEnter}
       onBlur={onBlur}
       onFocus={onFocus}
@@ -91,7 +108,7 @@ const InputBuild = withListeners(({ config }) => {
           size={size}
           allowClear={allowClear}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           onPressEnter={onPressEnter}
           onBlur={onBlur}
           onFocus={onFocus}
@@ -124,7 +141,7 @@ const InputBuild = withListeners(({ config }) => {
         size={size}
         allowClear={allowClear}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         onPressEnter={onPressEnter}
         onBlur={onBlur}
         onFocus={onFocus}
@@ -149,7 +166,7 @@ const InputBuild = withListeners(({ config }) => {
       size={size}
       allowClear={allowClear}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
       onPressEnter={onPressEnter}
       onBlur={onBlur}
       onFocus={onFocus}
